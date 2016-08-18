@@ -1,0 +1,24 @@
+{
+  "name": "Soundcloud StreamLine",
+  "version": "1.0.0",
+  "manifest_version": 2,
+
+  "description": "Deletes previous songs on the Soundcloud stream to quicken it when a large amount of songs is loaded.",
+
+
+  "author": "Andrew Lisowski",
+  "homepage_url": "",
+  "permissions": [
+    "https://soundcloud.com/stream"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://soundcloud.com/stream"
+      ],
+      "js": [
+        "removePrevious.js"
+      ]
+    }
+  ]
+}
