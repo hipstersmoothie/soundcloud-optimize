@@ -1,5 +1,5 @@
-var minute = 1000 * 60;
-var defaultMinutes = 10;
+var minute      = 1000 * 60;
+var defaultRate = 10;
 var refreshRate;
 var interval;
 
@@ -8,23 +8,28 @@ function removePrevious() {
   $(window).scrollTop(0);
 }
 
-function setRefreshRate(minutes) {
-  refreshRate = minutes * minute;
-  interval = setInterval(removePrevious, refreshRate);
+function setRefreshRate(rate) {
+  refreshRate = rate * minute;
+  interval    = setInterval(removePrevious, refreshRate);
 }
   
-setRefreshRate(defaultMinutes);
+setRefreshRate(defaultRate);
 
 chrome.runtime.onMessage.addListener(function(request, _, sendResponse) {
-  if (request.action == "removePrevious") {
-    removePrevious();
-    sendResponse({status: "success"});
-  } else if (request.action == "setRate") {
-    setRefreshRate(request.newRate)
-    sendResponse({status: "success"});
-  } else if (request.action == "getRate") {
-    sendResponse({rate: refreshRate});
-  } else {
-    sendResponse({status: "no suuch request"});
-  } 
+  switch(request.action) {
+    case 'removePrevious':
+      removePrevious();
+      sendResponse({ status: "success" });
+      break;
+    case 'setRate':
+      setRefreshRate(request.newRate);
+      sendResponse({ status: "success" });
+      break;
+    case 'getRate':
+      sendResponse({ rate: refreshRate });
+      break;
+    default:
+      sendResponse({ status: "no such request" });
+      break;
+  }
 });
