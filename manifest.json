@@ -7,18 +7,26 @@
 
 
   "author": "Andrew Lisowski",
-  "homepage_url": "",
+  "homepage_url": "https://github.com/hipstersmoothie/soundcloud-optimize",
   "permissions": [
+    "tabs",
+    "activeTab",
     "https://soundcloud.com/stream"
   ],
   "content_scripts": [
     {
       "matches": [
+        
         "https://soundcloud.com/stream"
       ],
       "js": [
+        "jquery-3.1.0.slim.min.js",
         "removePrevious.js"
       ]
     }
-  ]
+  ],
+
+  "browser_action": {
+   "default_popup": "popup.html"
+  }
 }
