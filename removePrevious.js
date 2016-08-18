@@ -1,5 +1,6 @@
 var minute = 1000 * 60;
 var defaultMinutes = 10;
+var refreshRate;
 var interval;
 
 function removePrevious() {
@@ -8,7 +9,7 @@ function removePrevious() {
 }
 
 function setRefreshRate(minutes) {
-  var refreshRate = minutes * minute;
+  refreshRate = minutes * minute;
   interval = setInterval(removePrevious, refreshRate);
 }
   
@@ -21,6 +22,8 @@ chrome.runtime.onMessage.addListener(function(request, _, sendResponse) {
   } else if (request.action == "setRate") {
     setRefreshRate(request.newRate)
     sendResponse({status: "success"});
+  } else if (request.action == "getRate") {
+    sendResponse({rate: refreshRate});
   } else {
     sendResponse({status: "no suuch request"});
   } 
